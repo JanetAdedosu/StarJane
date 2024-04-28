@@ -1,8 +1,8 @@
 const data ={
     products: [
         {
-            name: 'fashionova',
-            slug: 'fashionova',
+            name: 'FashionNova',
+            slug: 'fashionova collection',
             category: 'shoe',
             image: './a16f168bd2e14aee62a2c5fa20033122.jpg',
             price: '120',
@@ -13,8 +13,8 @@ const data ={
             description: 'high quality shoe'
         },
         {
-            name: 'starjane',
-            slug: 'starjane',
+            name: 'Starjane',
+            slug: 'starjane collection',
             category: 'top',
             image: './20240304-IMG_0006-2-Edit_Original.jpg',
             price: '200',
@@ -25,7 +25,7 @@ const data ={
             description: 'high quality top'
         },
         {
-            name: 'fenty',
+            name: 'Fenty',
             slug: 'fenty collection',
             category: 'gown',
             image: './fenty-collection-17-1558687530.jpg',
@@ -37,7 +37,7 @@ const data ={
             description: 'high quality gown'
         },
         {
-            name: 'ivy park',
+            name: 'Ivy park',
             slug: 'ivy park collection',
             category: 'trouser',
             image: './23532084-0-image-a-22_1579283029881.jpg',
