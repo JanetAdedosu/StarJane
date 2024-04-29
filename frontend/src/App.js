@@ -5,7 +5,7 @@ import ProductScreen from "./screens/ProductScreen";
 function App() {
   return (
     <BrowserRouter>
-    <div >
+    <div className='site-container d-flex flex-column'>
       <header >
         <Link to="/">Star Jane</Link>
       </header>
@@ -15,6 +15,9 @@ function App() {
         <Route path="/" element={<HomeScreen/>} />
         </Routes>
       </main>
+      <footer>
+          <div className="text-center">All rights reserved</div>
+        </footer>
     </div>
     </BrowserRouter>
   );

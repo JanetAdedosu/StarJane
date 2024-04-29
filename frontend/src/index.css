@@ -16,8 +16,11 @@ header a {
   font-weight: bold;
   text-decoration: none;
 } 
+.site-container {
+  min-height: 100vh;
+}
 main{
-  padding: 1rem;
+  flex: 1;
 }
 .products{
   display: flex;
