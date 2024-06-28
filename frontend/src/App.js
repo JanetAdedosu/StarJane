@@ -7,7 +7,7 @@ function App() {
     <BrowserRouter>
     <div className='site-container d-flex flex-column'>
       <header >
-        <Link to="/">Star Jane</Link>
+        <Link to="/">StarJane</Link>
       </header>
       <main>
         <Routes>

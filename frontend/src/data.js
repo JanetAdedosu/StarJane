@@ -25,28 +25,16 @@ const data ={
             description: 'high quality top'
         },
         {
-            name: 'Fenty',
-            slug: 'fenty collection',
-            category: 'gown',
-            image: './fenty-collection-17-1558687530.jpg',
-            price: '350',
-            countInStock: '5',
-            brand: 'fenty',
-            rating: 4,
-            numReviews: 9,
-            description: 'high quality gown'
-        },
-        {
-            name: 'Ivy park',
-            slug: 'ivy park collection',
-            category: 'trouser',
-            image: './23532084-0-image-a-22_1579283029881.jpg',
+            name: 'Jasquemus',
+            slug: 'jasquemus collection',
+            category: 'purse',
+            image: './lemon-purse.jpg',
             price: '250',
             countInStock: '8',
-            brand: 'ivy park',
+            brand: 'jasquemus',
             rating: 3,
             numReviews: 7,
-            description: 'high quality trouser'
+            description: 'high quality purse'
         }
     ]
 }
