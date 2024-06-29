@@ -1,6 +1,20 @@
 import express from 'express';
 import data from './data.js';
 
+import mongoose from 'mongoose';
+import dotenv from 'dotenv';
+
+dotenv.config();
+
+mongoose
+  .connect(process.env.MONGODB_URI)
+  .then(() => {
+    console.log('connected to db');
+  })
+  .catch((err) => {
+    console.log(err.message);
+  });
+
 const app = express();
 
 app.get('/api/products', (req, res) => {
@@ -25,7 +39,7 @@ app.get('/api/products/:id', (req, res) => {
   }
 });
 
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 3002;
 app.listen(port, () => {
   console.log(`serve at http://localhost:${port}`);
 });
