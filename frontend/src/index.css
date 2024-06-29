@@ -23,10 +23,17 @@ header a {
 main{
   flex: 1;
 }
+.btn-primary {
+  background-color: pink;
+  color:blue;
+}
 .products{
   display: flex;
   flex-wrap: wrap;
   justify-content: center;  
+}
+.rating span {
+  color: brown;
 }
 .product{
   border: 1px #404040 solid;
