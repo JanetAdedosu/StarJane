@@ -19,6 +19,9 @@
     "use-reducer-logger": "^1.0.2",
     "web-vitals": "^2.1.4"
   },
+  "devDependencies": {
+    "@babel/plugin-proposal-private-property-in-object": "^7.20.0"
+  },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",

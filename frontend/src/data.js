@@ -18,13 +18,25 @@ const data ={
             category: 'top',
             image: './20240304-IMG_0006-2-Edit_Original.jpg',
             price: '200',
-            countInStock: '0',
+            countInStock: '5',
             brand: 'starjane',
             rating: 4.5,
             numReviews: 9,
             description: 'high quality top'
-        }
-        
+        },
+        {
+            name: 'Fenty',
+            slug: 'fenty collection',
+            category: 'gown',
+            image: './fenty-collection-17-1558687530.jpg',
+            price: '350',
+            countInStock: '5',
+            brand: 'fenty',
+            rating: 4,
+            numReviews: 9,
+            description: 'high quality gown'
+        },
+       
     ]
 }
 export default data;

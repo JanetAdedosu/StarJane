@@ -1,6 +1,7 @@
 const data ={
     products: [
-        {
+        {   
+            _id: '1',
             name: 'FashionNova',
             slug: 'fashionova collection',
             category: 'shoe',
@@ -12,7 +13,8 @@ const data ={
             numReviews: 9,
             description: 'high quality shoe'
         },
-        {
+        {   
+            _id: '2',
             name: 'Starjane',
             slug: 'starjane collection',
             category: 'top',
@@ -24,7 +26,8 @@ const data ={
             numReviews: 9,
             description: 'high quality top'
         },
-        {
+        {   
+            _id: '3',
             name: 'Fenty',
             slug: 'fenty collection',
             category: 'gown',
@@ -36,7 +39,8 @@ const data ={
             numReviews: 9,
             description: 'high quality gown'
         },
-        {
+        {   
+            _id: '4',
             name: 'Ivy park',
             slug: 'ivy park collection',
             category: 'trouser',
@@ -47,7 +51,8 @@ const data ={
             rating: 3,
             numReviews: 7,
             description: 'high quality trouser'
-        }
+        },
+        
     ]
 }
 export default data;
