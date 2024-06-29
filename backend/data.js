@@ -30,7 +30,7 @@ const data ={
             category: 'gown',
             image: './fenty-collection-17-1558687530.jpg',
             price: '350',
-            countInStock: '5',
+            countInStock: '0',
             brand: 'fenty',
             rating: 4,
             numReviews: 9,
