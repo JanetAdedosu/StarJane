@@ -37,16 +37,16 @@ const data ={
             description: 'high quality gown'
         },
         {
-            name: 'Jasquemus',
-            slug: 'jasquemus collection',
-            category: 'purse',
-            image: './lemon-purse.jpg',
+            name: 'Ivy park',
+            slug: 'ivy park collection',
+            category: 'trouser',
+            image: './23532084-0-image-a-22_1579283029881.jpg',
             price: '250',
             countInStock: '8',
-            brand: 'jasquemus',
+            brand: 'ivy park',
             rating: 3,
             numReviews: 7,
-            description: 'high quality purse'
+            description: 'high quality trouser'
         }
     ]
 }
