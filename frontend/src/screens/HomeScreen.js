@@ -36,16 +36,19 @@ function HomeScreen (){
         const fetchData = async () => {
           dispatch({ type: "FETCH_REQUEST" });
           try {
-            const result = await axios.get("/api/products",{
-              headers: {
-                  'Accept': 'application/json',
-                  // Minimize the number of headers if necessary
-              }
-            });
+            const result = await axios.get('/api/products');
+            //   method: 'get',
+            //   url: '/api/products',
+            //   headers: {
+            //     'Content-Type': 'text/html; charset=utf-8'
+            //   }
+            // });
+            // console.log("Request headers:", response.config.headers);
             dispatch({ type: "FETCH_SUCCESS", payload: result.data });
           } catch (err) {
             dispatch({ type: "FETCH_FAIL", payload: err.message });
           }
+        
     
           // setProducts(result.data);
         };
