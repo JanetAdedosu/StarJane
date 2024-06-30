@@ -4,7 +4,7 @@ module.exports = function(app) {
   app.use(
     '/api', // This is the context for API requests
     createProxyMiddleware({
-      target: 'http://localhost:5002', // Replace with your backend server address
+      target: 'http://localhost:5003', // Replace with your backend server address
       changeOrigin: true,
       headers: {
         'X-Forwarded-For': 'localhost',
