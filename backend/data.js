@@ -53,7 +53,7 @@ const data ={
             description: 'high quality trouser'
         },
         sudo rm -rf /usr/local/etc/nginx
-sudo rm -rf /usr/l
+sudo rm -rf /us
 
         
     ]
