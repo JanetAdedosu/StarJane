@@ -52,10 +52,7 @@ const data ={
             numReviews: 7,
             description: 'high quality trouser'
         },
-        sudo rm -rf /usr/local/etc/nginx
-sudo rm 
 
-        
     ]
 }
 export default data;
