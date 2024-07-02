@@ -1,3 +1,5 @@
+// CartScreen.js
+
 import { useContext } from 'react';
 import { Store } from '../Store';
 import { Helmet } from 'react-helmet-async';
@@ -8,33 +10,37 @@ import ListGroup from 'react-bootstrap/ListGroup';
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 import { Link, useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import axiosInstance from '../axios'; // Adjust path as per your folder structure
 
 export default function CartScreen() {
-    const navigate = useNavigate();
-    // eslint-disable-next-line
+  const navigate = useNavigate();
   const { state, dispatch: ctxDispatch } = useContext(Store);
   const {
     cart: { cartItems },
   } = state;
-  
+
   const updateCartHandler = async (item, quantity) => {
-    const { data } = await axios.get(`/api/products/${item._id}`);
-    if (data.countInStock < quantity) {
-      window.alert('Sorry. Product is out of stock');
-      return;
+    try {
+      const { data } = await axiosInstance.get(`/products/${item._id}`); // Adjust endpoint as per your API
+      if (data.countInStock < quantity) {
+        window.alert('Sorry. Product is out of stock');
+        return;
+      }
+      ctxDispatch({
+        type: 'CART_ADD_ITEM',
+        payload: { ...item, quantity },
+      });
+    } catch (error) {
+      console.error('Error updating cart:', error);
     }
-    ctxDispatch({
-      type: 'CART_ADD_ITEM',
-      payload: { ...item, quantity },
-    });
   };
+
   const removeItemHandler = (item) => {
     ctxDispatch({ type: 'CART_REMOVE_ITEM', payload: item });
   };
 
   const checkoutHandler = () => {
-    navigate('/signin?redirect=/shipping');
+    navigate('/login?redirect=/shipping');
   };
 
   return (
@@ -63,7 +69,7 @@ export default function CartScreen() {
                       <Link to={`/product/${item.slug}`}>{item.name}</Link>
                     </Col>
                     <Col md={3}>
-                    <Button
+                      <Button
                         onClick={() =>
                           updateCartHandler(item, item.quantity - 1)
                         }
@@ -76,8 +82,8 @@ export default function CartScreen() {
                       <Button
                         variant="light"
                         onClick={() =>
-                            updateCartHandler(item, item.quantity + 1)
-                          }
+                          updateCartHandler(item, item.quantity + 1)
+                        }
                         disabled={item.quantity === item.countInStock}
                       >
                         <i className="fas fa-plus-circle"></i>
@@ -85,7 +91,7 @@ export default function CartScreen() {
                     </Col>
                     <Col md={3}>${item.price}</Col>
                     <Col md={2}>
-                    <Button
+                      <Button
                         onClick={() => removeItemHandler(item)}
                         variant="light"
                       >
@@ -106,7 +112,10 @@ export default function CartScreen() {
                   <h3>
                     Subtotal ({cartItems.reduce((a, c) => a + c.quantity, 0)}{' '}
                     items) : $
-                    {cartItems.reduce((a, c) => a + c.price * c.quantity, 0)}
+                    {cartItems.reduce(
+                      (a, c) => a + c.price * c.quantity,
+                      0
+                    )}
                   </h3>
                 </ListGroup.Item>
                 <ListGroup.Item>

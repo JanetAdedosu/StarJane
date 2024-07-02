@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test API</title>
+</head>
+<body>
+    <h1>Test API</h1>
+    <button onclick="testAPI()">Test API Request</button>
+
+    <script>
+        function testAPI() {
+            const url = 'http://localhost:4000/api/products';
+
+            fetch(url)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! Status: ${response.status}`);
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    console.log('API Response:', data);
+                })
+                .catch(error => {
+                    console.error('Error fetching API:', error);
+                });
+        }
+    </script>
+</body>
+</html>

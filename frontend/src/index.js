@@ -6,13 +6,22 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { HelmetProvider } from 'react-helmet-async';
 import { StoreProvider } from './Store';
+import { Auth0Provider } from '@auth0/auth0-react';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
   <StoreProvider>
       <HelmetProvider>
+      <Auth0Provider
+    domain="dev-0wntlerljr583syk.us.auth0.com"
+    clientId="6RhQuTbbF4tK4n4UVZuAqL9OLsPGaQxj"
+    authorizationParams={{
+      redirect_uri: window.location.origin
+    }}
+  >
         <App />
+        </Auth0Provider>,
       </HelmetProvider>
     </StoreProvider>
   </React.StrictMode>
