@@ -42,7 +42,8 @@ app.use(cors({
 // Routes
 app.use('/api/seed', seedRouter);
 app.use('/api/products', productRouter); // Ensure this route is public
-app.use('/api/users', userRouter);
+app.use('/api/users', userRouter); // Ensure this registration is present
+
 
 // Error handling middleware
 app.use((err, req, res, next) => {

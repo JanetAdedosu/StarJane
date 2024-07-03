@@ -29,7 +29,7 @@ export default function SignupScreen() {
       return;
     }
     try {
-      const { data } = await Axios.post('/api/users/signup', {
+      const { data } = await Axios.post('http://localhost:4000/api/users/signup', {
         name,
         email,
         password,
@@ -75,14 +75,14 @@ export default function SignupScreen() {
             required
             onChange={(e) => setPassword(e.target.value)}
           />
-          <Form.Group className="mb-3" controlId="confirmPassword">
-            <Form.Label>Confirm Password</Form.Label>
-            <Form.Control
-              type="password"
-              onChange={(e) => setConfirmPassword(e.target.value)}
-              required
-            />
-          </Form.Group>
+        </Form.Group>
+        <Form.Group className="mb-3" controlId="confirmPassword">
+          <Form.Label>Confirm Password</Form.Label>
+          <Form.Control
+            type="password"
+            required
+            onChange={(e) => setConfirmPassword(e.target.value)}
+          />
         </Form.Group>
         <div className="mb-3">
           <Button type="submit">Sign Up</Button>
