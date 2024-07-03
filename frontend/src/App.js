@@ -14,6 +14,8 @@ import CartScreen from './screens/CartScreen';
 import LoginScreen from './screens/LoginScreen';
 import NavDropdown from 'react-bootstrap/NavDropdown';
 import ShippingAddressScreen from './screens/ShippingAddressScreen';
+import SignupScreen from './screens/SignupScreen';
+
 
 
 
@@ -80,6 +82,7 @@ function App() {
         <Route path="/product/:slug" element={<ProductScreen />} />
         <Route path="/cart" element={<CartScreen />} />
         <Route path="/login" element={<LoginScreen />} />
+        <Route path="/signup" element={<SignupScreen />} />
         <Route path="/shipping" element={<ShippingAddressScreen />} ></Route>
         </Routes>
         </Container>
