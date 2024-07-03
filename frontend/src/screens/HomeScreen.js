@@ -40,7 +40,19 @@ function HomeScreen() {
           config.headers = { Authorization: `Bearer ${userInfo.token}` };
         }
         const { data } = await axios.get('http://localhost:4000/api/products', config);
-        dispatch({ type: 'FETCH_SUCCESS', payload: data });
+        //dispatch({ type: 'FETCH_SUCCESS', payload: data });
+        dispatch({
+          type: 'FETCH_SUCCESS',
+          payload: data.sort((a, b) => {
+            if (a.name === 'FashionNova') return -1;
+            if (b.name === 'FashionNova') return 1;
+            if (a.name === 'Starjane') return -1;
+            if (b.name === 'Starjane') return 1;
+            if (a.name === 'Fenty') return -1;
+            if (b.name === 'Fenty') return 1;
+            return 0;
+          }),
+        });
       } catch (err) {
         const errorMessage = err.response && err.response.data.message
           ? err.response.data.message
