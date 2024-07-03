@@ -6,6 +6,7 @@ import cors from 'cors';
 import seedRouter from './routes/seedRoutes.js';
 import productRouter from './routes/productRoutes.js';
 import userRouter from './routes/userRoutes.js';
+import orderRouter from './routes/orderRoutes.js';
 
 // Load environment variables
 dotenv.config();
@@ -43,6 +44,7 @@ app.use(cors({
 app.use('/api/seed', seedRouter);
 app.use('/api/products', productRouter); // Ensure this route is public
 app.use('/api/users', userRouter); // Ensure this registration is present
+app.use('/api/orders', orderRouter);
 
 
 // Error handling middleware
