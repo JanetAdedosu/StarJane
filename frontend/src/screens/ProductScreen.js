@@ -1,6 +1,5 @@
-// ProductScreen.js
-
-import { useContext, useEffect, useReducer } from 'react';
+// src/screens/ProductScreen.js
+import React, { useEffect, useReducer, useContext } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
@@ -71,7 +70,6 @@ function ProductScreen() {
       navigate('/cart');
     } catch (error) {
       console.error('Error adding to cart:', error);
-      // Optionally, handle the error (e.g., show a message to the user)
     }
   };
 
@@ -88,11 +86,7 @@ function ProductScreen() {
           </Helmet>
           <Row>
             <Col md={6}>
-              <img
-                className="img-large"
-                src={product.image}
-                alt={product.name}
-              />
+              <img className="img-large" src={product.image} alt={product.name} />
             </Col>
             <Col md={3}>
               <ListGroup variant="flush">
@@ -103,10 +97,7 @@ function ProductScreen() {
                   <Rating rating={product.rating} numReviews={product.numReviews} />
                 </ListGroup.Item>
                 <ListGroup.Item>Price : ${product.price}</ListGroup.Item>
-                <ListGroup.Item>
-                  Description:
-                  <p>{product.description}</p>
-                </ListGroup.Item>
+                <ListGroup.Item>Description:<p>{product.description}</p></ListGroup.Item>
               </ListGroup>
             </Col>
             <Col md={3}>
@@ -122,13 +113,11 @@ function ProductScreen() {
                     <ListGroup.Item>
                       <Row>
                         <Col>Status:</Col>
-                        <Col>
-                          {product.countInStock > 0 ? (
-                            <Badge bg="success">In Stock</Badge>
-                          ) : (
-                            <Badge bg="danger">Unavailable</Badge>
-                          )}
-                        </Col>
+                        <Col>{product.countInStock > 0 ? (
+                          <Badge bg="success">In Stock</Badge>
+                        ) : (
+                          <Badge bg="danger">Unavailable</Badge>
+                        )}</Col>
                       </Row>
                     </ListGroup.Item>
                     {product.countInStock > 0 && (
