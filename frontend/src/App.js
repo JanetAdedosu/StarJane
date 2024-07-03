@@ -13,6 +13,7 @@ import { Store } from './Store';
 import CartScreen from './screens/CartScreen';
 import LoginScreen from './screens/LoginScreen';
 import NavDropdown from 'react-bootstrap/NavDropdown';
+import ShippingAddressScreen from './screens/ShippingAddressScreen';
 
 
 
@@ -23,6 +24,7 @@ function App() {
   const logoutHandler = () => {
     ctxDispatch({ type: 'USER_LOGOUT' });
     localStorage.removeItem('userInfo');
+    localStorage.removeItem('shippingAddress');
   };
   return (
     <BrowserRouter>
@@ -78,7 +80,7 @@ function App() {
         <Route path="/product/:slug" element={<ProductScreen />} />
         <Route path="/cart" element={<CartScreen />} />
         <Route path="/login" element={<LoginScreen />} />
-        
+        <Route path="/shipping" element={<ShippingAddressScreen />} ></Route>
         </Routes>
         </Container>
       </main>
