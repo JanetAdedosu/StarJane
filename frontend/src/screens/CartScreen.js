@@ -53,7 +53,7 @@ export default function CartScreen() {
         <Col md={8}>
           {cartItems.length === 0 ? (
             <MessageBox>
-              Cart is empty. <Link to="/">Go Shopping</Link>
+              Cart is empty. <a href="/" class="button-link">Shop Here</a>
             </MessageBox>
           ) : (
             <ListGroup>
@@ -65,7 +65,7 @@ export default function CartScreen() {
                         src={item.image}
                         alt={item.name}
                         className="img-fluid rounded img-thumbnail"
-                      ></img>{' '}
+                      />{' '}
                       <Link to={`/product/${item.slug}`}>{item.name}</Link>
                     </Col>
                     <Col md={3}>
