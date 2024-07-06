@@ -6,6 +6,14 @@ import { isAuth } from '../utils.js';
 
 const productRouter = express.Router();
 
+// Function to calculate the overall rating
+const calculateRating = (reviews) => {
+  if (reviews.length === 0) return 0;
+  const totalRating = reviews.reduce((sum, review) => sum + review.rating, 0);
+  return totalRating / reviews.length;
+};
+
+
 // Fetch all products
 productRouter.get('/', async (req, res) => {
   try {
