@@ -13,18 +13,17 @@ import orderRouter from './routes/orderRoutes.js';
 // Load environment variables
 dotenv.config({ path: './backend/.env' }); // Specify the path to the .env file
 
-// Debugging line to check if the environment variable is loaded correctly
-console.log('MongoDB URI:', process.env.MONGODB_URI);
-console.log('Environment Variables:', process.env);
+// Verify environment variables
+console.log('MONGODB_URI:', process.env.MONGODB_URI);
+
+if (!process.env.MONGODB_URI) {
+  console.error('MongoDB URI is not defined in environment variables');
+  process.exit(1);
+}
 
 // Connect to MongoDB
 mongoose
-  .connect(process.env.MONGODB_URI, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-    serverSelectionTimeoutMS: 50000, // Increase the timeout to 50 seconds
-    socketTimeoutMS: 60000, // Increase the timeout for sockets
-  })
+  .connect(process.env.MONGODB_URI)
   .then(() => {
     console.log('Connected to MongoDB');
   })
