@@ -1,9 +1,9 @@
-{
-  "presets"; [
-    ["@babel/preset-env", { "targets": "defaults" }],
-    "@babel/preset-react"
+module.exports = {
+  presets: [
+    ['@babel/preset-env', { targets: 'defaults' }],
+    '@babel/preset-react'
   ],
-  "plugins"; [
-    "@babel/plugin-transform-private-property-in-object"
+  plugins: [
+    '@babel/plugin-transform-private-property-in-object'
   ]
-}
+};
