@@ -7,3 +7,4 @@ Use Rating component in Product component
 Create Product Details Screen
 a. fetch product from backend
 b. create 3 columns for image, info and action
+newwwwwwwwww
