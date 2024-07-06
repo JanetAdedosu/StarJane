@@ -1,6 +1,8 @@
-import express from 'express';
-import mongoose from 'mongoose';
 import dotenv from 'dotenv';
+import express from 'express';
+import path from 'path';
+import mongoose from 'mongoose';
+
 import cors from 'cors';
 
 import seedRouter from './routes/seedRoutes.js';
@@ -9,11 +11,20 @@ import userRouter from './routes/userRoutes.js';
 import orderRouter from './routes/orderRoutes.js';
 
 // Load environment variables
-dotenv.config();
+dotenv.config({ path: './backend/.env' }); // Specify the path to the .env file
+
+// Debugging line to check if the environment variable is loaded correctly
+console.log('MongoDB URI:', process.env.MONGODB_URI);
+console.log('Environment Variables:', process.env);
 
 // Connect to MongoDB
 mongoose
-  .connect(process.env.MONGODB_URI)
+  .connect(process.env.MONGODB_URI, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+    serverSelectionTimeoutMS: 50000, // Increase the timeout to 50 seconds
+    socketTimeoutMS: 60000, // Increase the timeout for sockets
+  })
   .then(() => {
     console.log('Connected to MongoDB');
   })
@@ -49,6 +60,12 @@ app.use('/api/seed', seedRouter);
 app.use('/api/products', productRouter); // Ensure this route is public
 app.use('/api/users', userRouter); // Ensure this registration is present
 app.use('/api/orders', orderRouter);
+
+const __dirname = path.resolve();
+app.use(express.static(path.join(__dirname, '/frontend/build')));
+app.get('*', (req, res) =>
+  res.sendFile(path.join(__dirname, '/frontend/build/index.html'))
+);
 
 
 // Error handling middleware
