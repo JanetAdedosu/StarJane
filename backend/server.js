@@ -11,24 +11,33 @@ import userRouter from './routes/userRoutes.js';
 import orderRouter from './routes/orderRoutes.js';
 
 // Load environment variables
-dotenv.config({ path: './backend/.env' }); // Specify the path to the .env file
+const dotenvResult = dotenv.config({ path: './backend/.env' });
+
+if (dotenvResult.error) {
+  console.error('Error loading .env file:', dotenvResult.error);
+  process.exit(1);
+}
 
 // Verify environment variables
-console.log('MONGODB_URI:', process.env.MONGODB_URI);
+const { MONGODB_URI } = process.env;
 
-if (!process.env.MONGODB_URI) {
+if (!MONGODB_URI) {
   console.error('MongoDB URI is not defined in environment variables');
   process.exit(1);
 }
 
 // Connect to MongoDB
 mongoose
-  .connect(process.env.MONGODB_URI)
+  .connect(MONGODB_URI, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  })
   .then(() => {
     console.log('Connected to MongoDB');
   })
   .catch((err) => {
     console.error('MongoDB connection error:', err.message);
+    process.exit(1); // Exit the application if unable to connect to MongoDB
   });
 
 const app = express();
