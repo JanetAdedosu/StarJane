@@ -1,6 +1,6 @@
 import dotenv from 'dotenv';
 import express from 'express';
-import path from 'path';
+import data from './data.js';
 import mongoose from 'mongoose';
 
 import cors from 'cors';
@@ -11,24 +11,11 @@ import userRouter from './routes/userRoutes.js';
 import orderRouter from './routes/orderRoutes.js';
 
 // Load environment variables
-const dotenvResult = dotenv.config({ path: './backend/.env' });
-
-if (dotenvResult.error) {
-  console.error('Error loading .env file:', dotenvResult.error);
-  process.exit(1);
-}
-
-// Verify environment variables
-const { MONGODB_URI } = process.env;
-
-if (!MONGODB_URI) {
-  console.error('MongoDB URI is not defined in environment variables');
-  process.exit(1);
-}
+dotenv.config();
 
 // Connect to MongoDB
 mongoose
-  .connect(MONGODB_URI, {
+  .connect(process.env.MONGODB_URI, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
   })
@@ -37,7 +24,7 @@ mongoose
   })
   .catch((err) => {
     console.error('MongoDB connection error:', err.message);
-    process.exit(1); // Exit the application if unable to connect to MongoDB
+    process.exit(1);
   });
 
 const app = express();
@@ -59,29 +46,28 @@ app.use(cors({
   }
 }));
 
+// Route to get PayPal client ID
 app.get('/api/keys/paypal', (req, res) => {
   res.send(process.env.PAYPAL_CLIENT_ID || 'sb');
 });
 
 // Routes
 app.use('/api/seed', seedRouter);
-app.use('/api/products', productRouter); // Ensure this route is public
-app.use('/api/users', userRouter); // Ensure this registration is present
+app.use('/api/products', productRouter);
+app.use('/api/users', userRouter);
 app.use('/api/orders', orderRouter);
 
-const __dirname = path.resolve();
-app.use(express.static(path.join(__dirname, '/frontend/build')));
-app.get('*', (req, res) =>
-  res.sendFile(path.join(__dirname, '/frontend/build/index.html'))
-);
+
+
 
 
 // Error handling middleware
 app.use((err, req, res, next) => {
-  res.status(500).send({ message: err.message });
+  console.error(err.stack);
+  res.status(500).send({ message: 'Something broke!' });
 });
 
-// Root route to avoid 404 errors
+// Root route
 app.get('/', (req, res) => {
   res.send('Welcome to the API server');
 });
