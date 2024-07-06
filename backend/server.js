@@ -1,6 +1,6 @@
 import dotenv from 'dotenv';
 import express from 'express';
-import data from './data.js';
+
 import mongoose from 'mongoose';
 
 import cors from 'cors';
@@ -15,10 +15,7 @@ dotenv.config();
 
 // Connect to MongoDB
 mongoose
-  .connect(process.env.MONGODB_URI, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  })
+  .connect(process.env.MONGODB_URI)
   .then(() => {
     console.log('Connected to MongoDB');
   })
