@@ -29,8 +29,19 @@ orderRouter.get(
   '/mine',
   isAuth,
   expressAsyncHandler(async (req, res) => {
-    const orders = await Order.find({ user: req.user._id });
-    res.send(orders);
+    try {
+      console.log('Fetching orders for user:', req.user._id);
+      const orders = await Order.find({ user: req.user._id });
+      if (!orders) {
+        console.log('No orders found for user:', req.user._id);
+        res.status(404).send({ message: 'Orders Not Found' });
+      } else {
+        res.send(orders);
+      }
+    } catch (error) {
+      console.error('Error fetching orders:', error);
+      res.status(500).send({ message: 'Internal Server Error' });
+    }
   })
 );
 
