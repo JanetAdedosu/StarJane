@@ -1,4 +1,4 @@
 services:
   - name: backend
     buildCommand: npm install --legacy-peer-deps
-    startCommand: node src/backend/index.js
+    startCommand: node src/backend/server.js
