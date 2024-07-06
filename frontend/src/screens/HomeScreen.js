@@ -39,7 +39,7 @@ function HomeScreen() {
         if (userInfo && userInfo.token) {
           config.headers = { Authorization: `Bearer ${userInfo.token}` };
         }
-        const { data } = await axios.get('http://localhost:4000/api/products', config);
+        const { data } = await axios.get('https://starjane-6.onrender.com/api/products', config);
         //dispatch({ type: 'FETCH_SUCCESS', payload: data });
         dispatch({
           type: 'FETCH_SUCCESS',

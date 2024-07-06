@@ -3,7 +3,7 @@
 import axios from 'axios';
 
 const axiosInstance = axios.create({
-  baseURL: 'http://localhost:4000/api', // Replace with your backend API base URL
+  baseURL: 'https://starjane-6.onrender.com/api', // Replace with your backend API base URL
 });
 
 axiosInstance.interceptors.request.use(

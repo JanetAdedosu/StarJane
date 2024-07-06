@@ -45,7 +45,7 @@ const PlaceOrderScreen = () => {
       dispatch({ type: 'CREATE_REQUEST' });
 
       const { data } = await axios.post(
-        'http://localhost:4000/api/orders',
+        'https://starjane-6.onrender.com/api/orders',
         {
           orderItems: cart.cartItems,
           shippingAddress: cart.shippingAddress,

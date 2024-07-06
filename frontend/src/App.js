@@ -1,4 +1,3 @@
-// src/App.js
 import React, { useContext } from 'react';
 import { BrowserRouter, Routes, Route, Link } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';

@@ -29,7 +29,7 @@ export default function SignupScreen() {
       return;
     }
     try {
-      const { data } = await Axios.post('http://localhost:4000/api/users/signup', {
+      const { data } = await Axios.post('https://starjane-6.onrender.com/api/users/signup', {
         name,
         email,
         password,

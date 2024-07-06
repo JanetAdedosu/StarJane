@@ -47,7 +47,7 @@ export default function ProfileScreen() {
     try {
       dispatch({ type: 'UPDATE_REQUEST' });
       const { data } = await axios.put(
-        'http://localhost:4000/api/users/profile',
+        'https://starjane-6.onrender.com/api/users/profile',
         {
           name,
           email,

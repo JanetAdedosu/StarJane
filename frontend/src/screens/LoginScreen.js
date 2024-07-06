@@ -24,7 +24,7 @@ export default function LoginScreen() {
   const submitHandler = async (e) => {
     e.preventDefault();
     try {
-      const { data } = await Axios.post('http://localhost:4000/api/users/login', {
+      const { data } = await Axios.post('https://starjane-6.onrender.com/api/users/login', {
         email,
         password,
       });
