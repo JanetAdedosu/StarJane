@@ -6,10 +6,12 @@ import Button from 'react-bootstrap/Button';
 import { Helmet } from 'react-helmet-async';
 import { useContext, useEffect, useState } from 'react';
 import { Store } from '../Store';
-import { toast } from 'react-toastify';
 import { getError } from '../utils';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
-export default function LoginScreen() {
+
+function LoginScreen() {
   const navigate = useNavigate();
   const { search } = useLocation();
   const redirectInUrl = new URLSearchParams(search).get('redirect');
@@ -78,3 +80,4 @@ export default function LoginScreen() {
     </Container>
   );
 }
+export default LoginScreen;

@@ -3,9 +3,11 @@ import { Helmet } from 'react-helmet-async';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import { Store } from '../Store';
-import { toast } from 'react-toastify';
 import { getError } from '../utils';
 import axios from 'axios';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 
 const reducer = (state, action) => {
   switch (action.type) {
@@ -15,7 +17,6 @@ const reducer = (state, action) => {
       return { ...state, loadingUpdate: false };
     case 'UPDATE_FAIL':
       return { ...state, loadingUpdate: false };
-
     default:
       return state;
   }
@@ -24,8 +25,8 @@ const reducer = (state, action) => {
 export default function ProfileScreen() {
   const { state, dispatch: ctxDispatch } = useContext(Store);
   const { userInfo } = state;
-  const [name, setName] = useState(userInfo?.name || ''); // Use optional chaining to safely access userInfo.name
-  const [email, setEmail] = useState(userInfo?.email || ''); // Use optional chaining to safely access userInfo.email
+  const [name, setName] = useState(userInfo?.name || '');
+  const [email, setEmail] = useState(userInfo?.email || '');
   const [password, setPassword] = useState('');
   const [{ loadingUpdate }, dispatch] = useReducer(reducer, {
     loadingUpdate: false,
@@ -33,12 +34,12 @@ export default function ProfileScreen() {
 
   useEffect(() => {
     if (!userInfo) {
-      // Redirect or handle the case where userInfo is not available (user not logged in)
+      // Handle the case where userInfo is not available (user not logged in)
       // Example: Redirect to login page
       // navigate('/login');
     } else {
-      setName(userInfo.name || ''); // Update name state when userInfo changes
-      setEmail(userInfo.email || ''); // Update email state when userInfo changes
+      setName(userInfo.name || '');
+      setEmail(userInfo.email || '');
     }
   }, [userInfo]);
 
@@ -100,10 +101,7 @@ export default function ProfileScreen() {
         </Form.Group>
         <Form.Group className="mb-3" controlId="confirmPasswordControl">
           <Form.Label>Confirm Password</Form.Label>
-          <Form.Control
-            type="password"
-            //onChange={(e) => setConfirmPassword(e.target.value)}
-          />
+          <Form.Control type="password" />
         </Form.Group>
         <div className="mb-3">
           <Button type="submit" disabled={loadingUpdate}>

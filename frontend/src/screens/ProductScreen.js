@@ -3,7 +3,10 @@ import React, { useEffect, useReducer, useContext, useRef, useState } from 'reac
 import { Link, useParams, useNavigate } from 'react-router-dom';
 import Form from 'react-bootstrap/Form';
 import FloatingLabel from 'react-bootstrap/FloatingLabel';
+//import { toast } from 'react-toastify';
 import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import ListGroup from 'react-bootstrap/ListGroup';

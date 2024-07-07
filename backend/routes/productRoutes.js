@@ -1,8 +1,6 @@
 import express from 'express';
-import expressAsyncHandler from 'express-async-handler';
 import Product from '../models/productModel.js';
 import { isAuth } from '../utils.js';
-
 
 const productRouter = express.Router();
 
@@ -13,7 +11,6 @@ const calculateRating = (reviews) => {
   return totalRating / reviews.length;
 };
 
-
 // Fetch all products
 productRouter.get('/', async (req, res) => {
   try {
@@ -23,8 +20,6 @@ productRouter.get('/', async (req, res) => {
     res.status(500).send({ message: 'Error fetching products' });
   }
 });
-
-
 
 // Fetch product by slug
 productRouter.get('/slug/:slug', async (req, res) => {
@@ -54,7 +49,8 @@ productRouter.get('/:id', async (req, res) => {
   }
 });
 
-productRouter.post('/:productId/reviews', async (req, res) => {
+// Add a review to a product
+productRouter.post('/:productId/reviews', isAuth, async (req, res) => {
   const { rating, comment, name } = req.body;
   const productId = req.params.productId;
 
@@ -72,24 +68,22 @@ productRouter.post('/:productId/reviews', async (req, res) => {
       createdAt: new Date(),
     };
 
-    // Assuming reviews is an array field in your Product schema
     product.reviews.push(newReview);
+    product.numReviews = product.reviews.length;
+    product.rating = calculateRating(product.reviews);
 
-    // Save the updated product with the new review
     await product.save();
 
     res.status(201).json({
       message: 'Review added successfully',
       review: newReview,
-      numReviews: product.reviews.length,
-      rating: calculateRating(product.reviews), // You may need to define a function to calculate the overall rating
+      numReviews: product.numReviews,
+      rating: product.rating,
     });
   } catch (error) {
     console.error('Error adding review:', error);
     res.status(500).json({ message: 'Failed to add review' });
   }
 });
-
-
 
 export default productRouter;
