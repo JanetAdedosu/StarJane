@@ -53,6 +53,7 @@ const PlaceOrderScreen = () => {
           shippingPrice: cart.shippingPrice,
           taxPrice: cart.taxPrice,
           totalPrice: cart.totalPrice,
+          user: userInfo._id, // Ensure user ID is provided
         },
         {
           headers: {
@@ -63,7 +64,7 @@ const PlaceOrderScreen = () => {
       ctxDispatch({ type: 'CART_CLEAR' });
       dispatch({ type: 'CREATE_SUCCESS' });
       localStorage.removeItem('cartItems');
-      navigate(`/order/${data.order._id}`);
+      navigate(`/order/${data._id}`);
     } catch (err) {
       dispatch({ type: 'CREATE_FAIL' });
       toast.error(getError(err));
