@@ -1,0 +1,7 @@
+# render.yaml
+
+services:
+  - type: web
+    name: frontend
+    buildCommand: npm install --legacy-peer-deps && npm run build
+    startCommand: npx serve -s build
