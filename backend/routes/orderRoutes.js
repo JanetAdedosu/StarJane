@@ -1,5 +1,3 @@
-// orderRoutes.js
-
 import express from 'express';
 import expressAsyncHandler from 'express-async-handler';
 import Order from '../models/orderModel.js';
@@ -22,6 +20,19 @@ orderRouter.post(
       totalPrice,
     } = req.body;
 
+    if (
+      !orderItems ||
+      orderItems.length === 0 ||
+      !shippingAddress ||
+      !paymentMethod ||
+      itemsPrice === undefined ||
+      shippingPrice === undefined ||
+      taxPrice === undefined ||
+      totalPrice === undefined
+    ) {
+      return res.status(400).send({ message: 'Missing required order fields' });
+    }
+
     const newOrder = new Order({
       orderItems,
       shippingAddress,
@@ -33,8 +44,13 @@ orderRouter.post(
       user: req.user._id,
     });
 
-    const createdOrder = await newOrder.save();
-    res.status(201).send({ message: 'New Order Created', order: createdOrder });
+    try {
+      const createdOrder = await newOrder.save();
+      res.status(201).send({ message: 'New Order Created', order: createdOrder });
+    } catch (error) {
+      console.error('Error creating order:', error);
+      res.status(500).send({ message: 'Internal Server Error' });
+    }
   })
 );
 
