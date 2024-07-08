@@ -31,7 +31,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // CORS setup
-const allowedOrigins = ['http://localhost:3000','https://starjane-17.onrender.com'];
+const allowedOrigins = ['http://localhost:3000', 'https://starjane-17.onrender.com'];
 app.use(cors({
   origin: function (origin, callback) {
     if (!origin || allowedOrigins.includes(origin)) {
@@ -65,6 +65,8 @@ app.use((err, req, res, next) => {
 });
 
 const port = process.env.PORT || 4000;
-app.listen(port, () => {
-  console.log(`Server is running at http://localhost:${port}`);
+const host = '0.0.0.0/0'; // Listen on all network interfaces
+
+app.listen(port, host, () => {
+  console.log(`Server is running at http://${host}:${port}`);
 });
