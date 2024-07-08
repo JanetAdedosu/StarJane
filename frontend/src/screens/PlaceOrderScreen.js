@@ -14,7 +14,6 @@ import axios from 'axios';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-
 const reducer = (state, action) => {
   switch (action.type) {
     case 'CREATE_REQUEST':
@@ -74,10 +73,13 @@ const PlaceOrderScreen = () => {
   };
 
   useEffect(() => {
+    if (!userInfo.token) {
+      navigate('/login');
+    }
     if (!cart.paymentMethod) {
       navigate('/payment');
     }
-  }, [cart, navigate]);
+  }, [cart, userInfo, navigate]);
 
   return (
     <div>
@@ -164,7 +166,7 @@ const PlaceOrderScreen = () => {
                 </ListGroup.Item>
                 <ListGroup.Item>
                   <Row>
-                    <Col><strong> Order Total</strong></Col>
+                    <Col><strong>Order Total</strong></Col>
                     <Col><strong>${cart.totalPrice.toFixed(2)}</strong></Col>
                   </Row>
                 </ListGroup.Item>
@@ -173,7 +175,7 @@ const PlaceOrderScreen = () => {
                     <Button
                       type="button"
                       onClick={placeOrderHandler}
-                      disabled={cart.cartItems.length === 0}
+                      disabled={cart.cartItems.length === 0 || loading}
                     >
                       Place Order
                     </Button>

@@ -1,15 +1,13 @@
 import React, { useContext, useEffect, useReducer } from 'react';
-import { Link, useNavigate, useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import axios from 'axios';
 import { PayPalButtons, usePayPalScriptReducer } from '@paypal/react-paypal-js';
+import { toast } from 'react-toastify';
 import { getError } from '../utils';
 import { Store } from '../Store';
 import LoadingBox from '../components/LoadingBox';
 import MessageBox from '../components/MessageBox';
 import { Card, Col, ListGroup, Row } from 'react-bootstrap';
-import { toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-
 
 const reducer = (state, action) => {
   switch (action.type) {
@@ -32,24 +30,13 @@ const reducer = (state, action) => {
   }
 };
 
-export default function OrderScreen() {
-  const { state } = useContext(Store);
-  const { userInfo } = state;
+const OrderScreen = () => {
+  const { state: globalState } = useContext(Store);
+  const { userInfo } = globalState;
   const params = useParams();
   const { id: orderId } = params;
-  const navigate = useNavigate();
 
-  const [
-    {
-      loading,
-      error,
-      order,
-      successPay,
-      // eslint-disable-next-line
-      loadingPay,
-    },
-    dispatch,
-  ] = useReducer(reducer, {
+  const [orderState, dispatch] = useReducer(reducer, {
     loading: true,
     order: {},
     error: '',
@@ -63,58 +50,56 @@ export default function OrderScreen() {
     const fetchOrder = async () => {
       try {
         dispatch({ type: 'FETCH_REQUEST' });
-        const { data } = await axios.get(`/api/orders/${orderId}`, {
-          headers: { authorization: `Bearer ${userInfo.token}` },
+        const { data } = await axios.get(`https://starjane-6.onrender.com/api/orders/${orderId}`, {
+          headers: { Authorization: `Bearer ${userInfo.token}` },
         });
         dispatch({ type: 'FETCH_SUCCESS', payload: data });
-        console.log('Order data:', data); // Debugging line
       } catch (err) {
         dispatch({ type: 'FETCH_FAIL', payload: getError(err) });
       }
     };
 
+    const loadPaypalScript = async () => {
+      try {
+        const { data: clientId } = await axios.get('https://starjane-6.onrender.com/api/keys/paypal', {
+          headers: { Authorization: `Bearer ${userInfo.token}` },
+        });
+        paypalDispatch({
+          type: 'resetOptions',
+          value: {
+            'client-id': clientId,
+            currency: 'USD',
+          },
+        });
+        paypalDispatch({ type: 'setLoadingStatus', value: 'pending' });
+      } catch (err) {
+        toast.error('Failed to load PayPal script');
+        console.error('PayPal script loading error:', err);
+      }
+    };
+
     if (!userInfo) {
-      return navigate('/login');
+      // Redirect to login if userInfo is not available
+      return;
     }
-    if (!order._id || successPay || (order._id && order._id !== orderId)) {
+
+    if (!orderState.order._id || orderState.successPay || orderState.order._id !== orderId) {
       fetchOrder();
-      if (successPay) {
+      if (orderState.successPay) {
         dispatch({ type: 'PAY_RESET' });
       }
     } else {
-      const loadPaypalScript = async () => {
-        try {
-          const { data: clientId } = await axios.get('/api/keys/paypal', {
-            headers: { authorization: `Bearer ${userInfo.token}` },
-          });
-          paypalDispatch({
-            type: 'resetOptions',
-            value: {
-              'client-id': clientId,
-              currency: 'USD',
-            },
-          });
-          paypalDispatch({ type: 'setLoadingStatus', value: 'pending' });
-        } catch (err) {
-          toast.error('Failed to load PayPal script');
-          console.error('PayPal script loading error:', err); // Additional error logging
-        }
-      };
       loadPaypalScript();
     }
-  }, [order, userInfo, orderId, navigate, paypalDispatch, successPay]);
+  }, [orderId, userInfo, orderState.order._id, orderState.successPay, paypalDispatch]);
 
-  function onApprove(data, actions) {
+  const onApprove = (data, actions) => {
     return actions.order.capture().then(async function (details) {
       try {
         dispatch({ type: 'PAY_REQUEST' });
-        const { data } = await axios.put(
-          `/api/orders/${order._id}/pay`,
-          details,
-          {
-            headers: { authorization: `Bearer ${userInfo.token}` },
-          }
-        );
+        const { data } = await axios.put(`/api/orders/${orderState.order._id}/pay`, details, {
+          headers: { Authorization: `Bearer ${userInfo.token}` },
+        });
         dispatch({ type: 'PAY_SUCCESS', payload: data });
         toast.success('Order is paid');
       } catch (err) {
@@ -122,16 +107,16 @@ export default function OrderScreen() {
         toast.error(getError(err));
       }
     });
-  }
+  };
 
-  function onError(err) {
+  const onError = (err) => {
     toast.error(getError(err));
-  }
+  };
 
-  return loading ? (
-    <LoadingBox></LoadingBox>
-  ) : error ? (
-    <MessageBox variant="danger">{error}</MessageBox>
+  return orderState.loading ? (
+    <LoadingBox />
+  ) : orderState.error ? (
+    <MessageBox variant="danger">{orderState.error}</MessageBox>
   ) : (
     <div>
       <h1>Order {orderId}</h1>
@@ -139,17 +124,13 @@ export default function OrderScreen() {
         <Col md={8}>
           <Card className="mb-3">
             <Card.Body>
-              <Card.Title>Shipping</Card.Title>
               <Card.Text>
-                <strong>Name:</strong> {order.shippingAddress.fullName} <br />
-                <strong>Address: </strong> {order.shippingAddress.address},
-                {order.shippingAddress.city}, {order.shippingAddress.postalCode}
-                , {order.shippingAddress.country}
+                <strong>Name:</strong> {orderState.order.shippingAddress.fullName} <br />
+                <strong>Address: </strong> {orderState.order.shippingAddress.address},
+                {orderState.order.shippingAddress.city}, {orderState.order.shippingAddress.postalCode}, {orderState.order.shippingAddress.country}
               </Card.Text>
-              {order.isDelivered ? (
-                <MessageBox variant="success">
-                  Delivered at {order.deliveredAt}
-                </MessageBox>
+              {orderState.order.isDelivered ? (
+                <MessageBox variant="success">Delivered on {orderState.order.deliveredAt}</MessageBox>
               ) : (
                 <MessageBox variant="danger">Not Delivered</MessageBox>
               )}
@@ -157,38 +138,20 @@ export default function OrderScreen() {
           </Card>
           <Card className="mb-3">
             <Card.Body>
-              <Card.Title>Payment</Card.Title>
-              <Card.Text>
-                <strong>Method:</strong> {order.paymentMethod}
-              </Card.Text>
-              {order.isPaid ? (
-                <MessageBox variant="success">
-                  Paid at {order.paidAt}
-                </MessageBox>
-              ) : (
-                <MessageBox variant="danger">Not Paid</MessageBox>
-              )}
-            </Card.Body>
-          </Card>
-          <Card className="mb-3">
-            <Card.Body>
               <Card.Title>Items</Card.Title>
               <ListGroup variant="flush">
-                {order.orderItems.map((item) => (
-                  <ListGroup.Item key={item._id}>
-                    <Row className="align-items-center">
-                      <Col md={6}>
-                        <img
-                          src={item.image}
-                          alt={item.name}
-                          className="img-fluid rounded img-thumbnail"
-                        ></img>{' '}
-                        <Link to={`/product/${item.slug}`}>{item.name}</Link>
+                {orderState.order.orderItems.map((item) => (
+                  <ListGroup.Item key={item.product}>
+                    <Row>
+                      <Col md={1}>
+                        <img src={item.image} alt={item.name} className="small" />
                       </Col>
-                      <Col md={3}>
-                        <span>{item.quantity}</span>
+                      <Col>
+                        <Link to={`/product/${item.product}`}>{item.name}</Link>
                       </Col>
-                      <Col md={3}>${item.price}</Col>
+                      <Col md={4}>
+                        {item.qty} x ${item.price} = ${item.qty * item.price}
+                      </Col>
                     </Row>
                   </ListGroup.Item>
                 ))}
@@ -197,70 +160,74 @@ export default function OrderScreen() {
           </Card>
         </Col>
         <Col md={4}>
-          <Card className="mb-3">
-            <Card.Body>
-              <Card.Title>Order Summary</Card.Title>
-              <ListGroup variant="flush">
+          <Card>
+            <ListGroup variant="flush">
+              <ListGroup.Item>
+                <h2>Order Summary</h2>
+              </ListGroup.Item>
+              <ListGroup.Item>
+                <Row>
+                  <Col>Items</Col>
+                  <Col>${orderState.order.itemsPrice.toFixed(2)}</Col>
+                </Row>
+              </ListGroup.Item>
+              <ListGroup.Item>
+                <Row>
+                  <Col>Shipping</Col>
+                  <Col>${orderState.order.shippingPrice.toFixed(2)}</Col>
+                </Row>
+              </ListGroup.Item>
+              <ListGroup.Item>
+                <Row>
+                  <Col>Tax</Col>
+                  <Col>${orderState.order.taxPrice.toFixed(2)}</Col>
+                </Row>
+              </ListGroup.Item>
+              <ListGroup.Item>
+                <Row>
+                  <Col>Total</Col>
+                  <Col>${orderState.order.totalPrice.toFixed(2)}</Col>
+                </Row>
+              </ListGroup.Item>
+              <ListGroup.Item>
+                <Row>
+                  <Col>Payment Status</Col>
+                  <Col>{orderState.order.isPaid ? 'Paid' : 'Not Paid'}</Col>
+                </Row>
+              </ListGroup.Item>
+              {!orderState.order.isPaid && (
                 <ListGroup.Item>
-                  <Row>
-                    <Col>Items</Col>
-                    <Col>${order.itemsPrice.toFixed(2)}</Col>
-                  </Row>
+                  {isPending ? (
+                    <LoadingBox />
+                  ) : (
+                    <PayPalButtons
+                      createOrder={(data, actions) => {
+                        return actions.order.create({
+                          purchase_units: [
+                            {
+                              amount: {
+                                value: orderState.order.totalPrice.toFixed(2),
+                              },
+                            },
+                          ],
+                        });
+                      }}
+                      onApprove={onApprove}
+                      onError={onError}
+                      options={{
+                        'client-id': process.env.REACT_APP_PAYPAL_CLIENT_ID, // Ensure this is correctly set
+                        currency: 'USD',
+                      }}
+                    />
+                  )}
                 </ListGroup.Item>
-                <ListGroup.Item>
-                  <Row>
-                    <Col>Shipping</Col>
-                    <Col>${order.shippingPrice.toFixed(2)}</Col>
-                  </Row>
-                </ListGroup.Item>
-                <ListGroup.Item>
-                  <Row>
-                    <Col>Tax</Col>
-                    <Col>${order.taxPrice.toFixed(2)}</Col>
-                  </Row>
-                </ListGroup.Item>
-                <ListGroup.Item>
-                  <Row>
-                    <Col>
-                      <strong>Total</strong>
-                    </Col>
-                    <Col>
-                      <strong>${order.totalPrice.toFixed(2)}</strong>
-                    </Col>
-                  </Row>
-                </ListGroup.Item>
-                {!order.isPaid && (
-                  <ListGroup.Item>
-                    {isPending ? (
-                      <LoadingBox />
-                    ) : (
-                      <PayPalButtons
-                        createOrder={(data, actions) => {
-                          return actions.order
-                            .create({
-                              purchase_units: [
-                                {
-                                  amount: { value: order.totalPrice },
-                                },
-                              ],
-                            })
-                            .then((orderID) => orderID);
-                        }}
-                        onApprove={onApprove}
-                        onError={onError}
-                        options={{
-                          'client-id': process.env.REACT_APP_PAYPAL_CLIENT_ID,
-                          currency: 'USD',
-                        }}
-                      />
-                    )}
-                  </ListGroup.Item>
-                )}
-              </ListGroup>
-            </Card.Body>
+              )}
+            </ListGroup>
           </Card>
         </Col>
       </Row>
     </div>
   );
-}
+};
+
+export default OrderScreen;

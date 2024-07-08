@@ -102,7 +102,7 @@ function ProductScreen() {
       dispatch({ type: 'CREATE_REQUEST' });
 
       const { data } = await axios.post(
-        `http://localhost:3000/api/products/${product._id}/reviews`,
+        `http://localhost:4000/api/products/${product._id}/reviews`,
         { rating, comment, name: userInfo.name },
         {
           headers: { Authorization: `Bearer ${userInfo.token}` },

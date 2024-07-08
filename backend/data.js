@@ -26,7 +26,7 @@ const data ={
             countInStock: '10',
             brand: 'fashionova',
             rating: 3,
-            numReviews: 9,
+            numReviews: "",
             description: 'high quality shoe'
         },
         {   
@@ -39,7 +39,7 @@ const data ={
             countInStock: '5',
             brand: 'starjane',
             rating: 4.5,
-            numReviews: 9,
+            numReviews: "",
             description: 'high quality top'
         },
         {   
@@ -52,7 +52,7 @@ const data ={
             countInStock: '0',
             brand: 'fenty',
             rating: 4,
-            numReviews: 9,
+            numReviews: "",
             description: 'high quality gown'
         },
         {   
@@ -65,7 +65,7 @@ const data ={
             countInStock: '8',
             brand: 'ivy park',
             rating: 3,
-            numReviews: 7,
+            numReviews: "",
             description: 'high quality trouser'
         },
 
