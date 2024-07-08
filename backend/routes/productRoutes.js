@@ -72,6 +72,9 @@ productRouter.post('/:productId/reviews', isAuth, async (req, res) => {
     product.numReviews = product.reviews.length;
     product.rating = calculateRating(product.reviews);
 
+    // Update numReviews based on the number of reviews in the array
+    product.numReviews = product.reviews.length;
+
     await product.save();
 
     res.status(201).json({
