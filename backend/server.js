@@ -39,6 +39,7 @@ app.use(cors({
   }
 }));
 
+
 // Routes
 app.use('/api/seed', seedRouter);
 app.use('/api/products', productRouter);

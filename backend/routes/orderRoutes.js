@@ -1,3 +1,5 @@
+// orderRoutes.js
+
 import express from 'express';
 import expressAsyncHandler from 'express-async-handler';
 import Order from '../models/orderModel.js';
@@ -33,8 +35,24 @@ orderRouter.post(
       return res.status(400).send({ message: 'Missing required order fields' });
     }
 
+    // Ensure all order items have the necessary fields
+    const isValidOrderItems = orderItems.every(
+      item => item.product && item.quantity && item.price && item.name && item.image && item.slug
+    );
+
+    if (!isValidOrderItems) {
+      return res.status(400).send({ message: 'Invalid order items format' });
+    }
+
     const newOrder = new Order({
-      orderItems,
+      orderItems: orderItems.map(item => ({
+        product: item.product,
+        quantity: item.quantity,
+        price: item.price,
+        name: item.name,
+        image: item.image,
+        slug: item.slug,
+      })),
       shippingAddress,
       paymentMethod,
       itemsPrice,
@@ -48,8 +66,8 @@ orderRouter.post(
       const createdOrder = await newOrder.save();
       res.status(201).send({ message: 'New Order Created', order: createdOrder });
     } catch (error) {
-      console.error('Error creating order:', error);
-      res.status(500).send({ message: 'Internal Server Error' });
+      console.error('Error creating order:', error.message);
+      res.status(500).send({ message: 'Internal Server Error', error: error.message });
     }
   })
 );
@@ -63,8 +81,8 @@ orderRouter.get(
       const orders = await Order.find({ user: req.user._id });
       res.send(orders);
     } catch (error) {
-      console.error('Error fetching orders:', error);
-      res.status(500).send({ message: 'Internal Server Error' });
+      console.error('Error fetching orders:', error.message);
+      res.status(500).send({ message: 'Internal Server Error', error: error.message });
     }
   })
 );
@@ -82,8 +100,8 @@ orderRouter.get(
         res.status(404).send({ message: 'Order Not Found' });
       }
     } catch (error) {
-      console.error('Error fetching order:', error);
-      res.status(500).send({ message: 'Internal Server Error' });
+      console.error('Error fetching order:', error.message);
+      res.status(500).send({ message: 'Internal Server Error', error: error.message });
     }
   })
 );
@@ -111,8 +129,8 @@ orderRouter.put(
         res.status(404).send({ message: 'Order Not Found' });
       }
     } catch (error) {
-      console.error('Error updating order payment:', error);
-      res.status(500).send({ message: 'Internal Server Error' });
+      console.error('Error updating order payment:', error.message);
+      res.status(500).send({ message: 'Internal Server Error', error: error.message });
     }
   })
 );

@@ -33,27 +33,44 @@ const PlaceOrderScreen = () => {
   const { state, dispatch: ctxDispatch } = useContext(Store);
   const { cart, userInfo } = state;
 
+  // Function to round numbers to two decimal places
   const round2 = (num) => Math.round(num * 100 + Number.EPSILON) / 100;
+
+  // Calculate prices
   cart.itemsPrice = round2(
     cart.cartItems.reduce((a, c) => a + c.quantity * c.price, 0)
   );
   cart.shippingPrice = cart.itemsPrice > 100 ? round2(0) : round2(10);
   cart.taxPrice = round2(0.15 * cart.itemsPrice);
-  cart.totalPrice = cart.itemsPrice + cart.shippingPrice + cart.taxPrice;
+  cart.totalPrice = round2(
+    cart.itemsPrice + cart.shippingPrice + cart.taxPrice
+  );
 
   const placeOrderHandler = async () => {
     try {
       dispatch({ type: 'CREATE_REQUEST' });
 
-      const { data } = await axios.post('https://starjane-6.onrender.com/api/orders', {
-          orderItems: cart.cartItems,
+      // Format order items for request
+      const orderItems = cart.cartItems.map(item => ({
+        product: item._id,
+        name: item.name,
+        quantity: item.quantity,
+        price: item.price,
+        image: item.image,
+        slug: item.slug  // Ensure to include slug here
+      }));
+
+      // Make the request to create order
+      const { data } = await axios.post(
+        'https://starjane-6.onrender.com/api/orders',
+        {
+          orderItems,
           shippingAddress: cart.shippingAddress,
           paymentMethod: cart.paymentMethod,
           itemsPrice: cart.itemsPrice,
           shippingPrice: cart.shippingPrice,
           taxPrice: cart.taxPrice,
           totalPrice: cart.totalPrice,
-          user: userInfo._id, // Ensure user ID is provided
         },
         {
           headers: {
@@ -61,10 +78,12 @@ const PlaceOrderScreen = () => {
           },
         }
       );
+
+      // Clear cart and navigate to order details
       ctxDispatch({ type: 'CART_CLEAR' });
       dispatch({ type: 'CREATE_SUCCESS' });
       localStorage.removeItem('cartItems');
-      navigate(`/order/${data._id}`);
+      navigate(`/order/${data.order._id}`);
     } catch (err) {
       dispatch({ type: 'CREATE_FAIL' });
       toast.error(getError(err));
@@ -72,9 +91,11 @@ const PlaceOrderScreen = () => {
   };
 
   useEffect(() => {
+    // Redirect if user is not logged in
     if (!userInfo.token) {
       navigate('/login');
     }
+    // Redirect if payment method is not set
     if (!cart.paymentMethod) {
       navigate('/payment');
     }
@@ -165,8 +186,12 @@ const PlaceOrderScreen = () => {
                 </ListGroup.Item>
                 <ListGroup.Item>
                   <Row>
-                    <Col><strong>Order Total</strong></Col>
-                    <Col><strong>${cart.totalPrice.toFixed(2)}</strong></Col>
+                    <Col>
+                      <strong>Order Total</strong>
+                    </Col>
+                    <Col>
+                      <strong>${cart.totalPrice.toFixed(2)}</strong>
+                    </Col>
                   </Row>
                 </ListGroup.Item>
                 <ListGroup.Item>
@@ -174,12 +199,12 @@ const PlaceOrderScreen = () => {
                     <Button
                       type="button"
                       onClick={placeOrderHandler}
-                      disabled={cart.cartItems.length === 0 || loading}
+                      disabled={cart.cartItems.length === 0}
                     >
                       Place Order
                     </Button>
                   </div>
-                  {loading && <LoadingBox />}
+                  {loading && <LoadingBox></LoadingBox>}
                 </ListGroup.Item>
               </ListGroup>
             </Card.Body>

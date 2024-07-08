@@ -1,3 +1,5 @@
+// orderModel.js
+
 import mongoose from 'mongoose';
 
 const orderSchema = new mongoose.Schema(
@@ -11,7 +13,7 @@ const orderSchema = new mongoose.Schema(
         price: { type: Number, required: true },
         product: {
           type: mongoose.Schema.Types.ObjectId,
-          ref: 'Product',
+          ref: 'Product',  // Ensure this matches your Product model name
           required: true,
         },
       },
