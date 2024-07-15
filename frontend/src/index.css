@@ -6,6 +6,10 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+.header-icon {
+  font-family: 'Font Awesome 5 Free';
+  font-weight: 900; /* Use the bold weight for icons */
+}
 
 
  /* header {
@@ -16,6 +20,24 @@ header a {
   color: #ffffff;
   font-weight: bold;
   text-decoration: none; */
+  @font-face {
+    font-family: 'Font Awesome 5 Free';
+    font-style: normal;
+    font-weight: 400;
+    src: url('https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.4/webfonts/fa-regular-400.woff2') format('woff2');
+    font-display: swap;
+    crossorigin: anonymous;
+  }
+  
+  @font-face {
+    font-family: 'Font Awesome 5 Free';
+    font-style: normal;
+    font-weight: 900;
+    src: url('https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.4/webfonts/fa-solid-900.woff2') format('woff2');
+    font-display: swap;
+    crossorigin: anonymous;
+  }
+  
 
 .site-container {
   min-height: 100vh;
