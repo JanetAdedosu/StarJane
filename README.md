@@ -4,21 +4,21 @@ This project was created to allow users to shop for various products, give their
 
 ## [HOME]
 ![Alt text](<frontend/public/Screenshot 2024-07-21 at 12.32.42.png>)
-
+<br></br>
 ## [Shopping Cart]
 ![Alt text](<frontend/public/Screenshot 2024-07-21 at 12.33.49.png>)
 ![Alt text](<frontend/public/Screenshot 2024-07-21 at 12.34.18.png>)
-
+<br></br>
 ## [SHIPPING ADDRESS]
 ![Alt text](<frontend/public/Screenshot 2024-07-21 at 12.35.06.png>)
-
+<br></br>
 ## [PAYMENT METHOD]
 ![Alt text](<frontend/public/Screenshot 2024-07-21 at 12.35.31.png>)
-
+<br></br>
 ## [PLACE ORDER]
 ![Alt text](<frontend/public/Screenshot 2024-07-21 at 12.35.51.png>)
 ![Alt text](<frontend/public/Screenshot 2024-07-21 at 12.36.14.png>)
-
+<br></br>
 # [Tech/framework used :]
 + HTML - used to create the website's basic structure
 <br></br>
