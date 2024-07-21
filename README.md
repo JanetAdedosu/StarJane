@@ -29,7 +29,7 @@ mocha - used for testing
 
 # INSTALLATION 👩🏾‍💻👩🏾‍💻
 Create a directory on your computer to store the project
-Run $ git clone https://github.com/adoptacoder-app/adoptacoder.git
+Run $ git clone https://github.com/JanetAdedosu/StarJane.git
 
 ## npm install React
 First, in the project directory, run $ npm install
