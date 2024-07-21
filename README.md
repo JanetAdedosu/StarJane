@@ -20,12 +20,12 @@ This project was created to allow users to shop for various products, give their
 ![Alt text](<frontend/public/Screenshot 2024-07-21 at 12.36.14.png>)
 
 # [Tech/framework used :]
- HTML - used to create the website's basic structure
-CSS - used to style the user interface
-React- used for web page development
-npm - used to manage dependencies
-Express- used for backend and connect to MongoDB
-mocha - used for testing
++ HTML - used to create the website's basic structure
++ CSS - used to style the user interface
++ React- used for web page development
++ npm - used to manage dependencies
++ Express- used for backend and connect to MongoDB
++ mocha - used for testing
 
 # INSTALLATION 👩🏾‍💻👩🏾‍💻
 Create a directory on your computer to store the project
