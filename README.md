@@ -21,10 +21,15 @@ This project was created to allow users to shop for various products, give their
 
 # [Tech/framework used :]
 + HTML - used to create the website's basic structure
+<br></br>
 + CSS - used to style the user interface
+<br></br>
 + React- used for web page development
+<br></br>
 + npm - used to manage dependencies
+<br></br>
 + Express- used for backend and connect to MongoDB
+<br></br>
 + mocha - used for testing
 
 # INSTALLATION 👩🏾‍💻👩🏾‍💻
