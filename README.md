@@ -140,3 +140,4 @@ serve build folder in frontend folder
 connect it to github
 Create mongodb atlas database
  
+![Alt text](frontend/public/23532084-0-image-a-22_1579283029881.jpg)
