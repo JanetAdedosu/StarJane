@@ -20,7 +20,7 @@ header a {
   color: #ffffff;
   font-weight: bold;
   text-decoration: none; */
-  @font-face {
+  /* @font-face {
     font-family: 'Font Awesome 5 Free';
     font-style: normal;
     font-weight: 400;
@@ -37,7 +37,7 @@ header a {
     font-display: swap;
     crossorigin: anonymous;
   }
-  
+   */
 
 .site-container {
   min-height: 100vh;
