@@ -1,30 +1,30 @@
-♾️StarJane E-commerce.
+## ♾️StarJane E-commerce.
 
 This project was created to allow users to shop for various products, give their reviews and pay with PayPal.
 
- [HOME]
+## [HOME]
 ![Alt text](<frontend/public/Screenshot 2024-07-21 at 12.32.42.png>)
 
-[Shopping Cart]
+## [Shopping Cart]
 ![Alt text](<frontend/public/Screenshot 2024-07-21 at 12.33.49.png>)
 ![Alt text](<frontend/public/Screenshot 2024-07-21 at 12.34.18.png>)
 
-[SHIPPING ADDRESS]
+## [SHIPPING ADDRESS]
 ![Alt text](<frontend/public/Screenshot 2024-07-21 at 12.35.06.png>)
 
-[PAYMENT METHOD]
+## [PAYMENT METHOD]
 ![Alt text](<frontend/public/Screenshot 2024-07-21 at 12.35.31.png>)
 
-[PLACE ORDER]
+## [PLACE ORDER]
 ![Alt text](<frontend/public/Screenshot 2024-07-21 at 12.35.51.png>)
 ![Alt text](<frontend/public/Screenshot 2024-07-21 at 12.36.14.png>)
 
-[Tech/framework used :]
-# HTML - used to create the website's basic structure
-# CSS - used to style the user interface
-# React- used for web page development
-# npm - used to manage dependencies
-# Express- used for backend and connect to MongoDB
+# [Tech/framework used :]
+ HTML - used to create the website's basic structure
+CSS - used to style the user interface
+React- used for web page development
+npm - used to manage dependencies
+Express- used for backend and connect to MongoDB
 mocha - used for testing
 
 # INSTALLATION 👩🏾‍💻👩🏾‍💻
